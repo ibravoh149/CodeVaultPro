@@ -2,17 +2,24 @@
   "name": "snippets",
   "version": "0.0.0",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages":[  "apps/*",
+    "packages/*"],
+    "nohoist": [
+      "**/@nestjs/graphql",
+      "**/@nestjs/apollo",
+      "**/graphql"
+    ]
+  },
+  "nohoist": ["**/@nestjs", "**/@nestjs/**"],
   "scripts": {
     "build": "turbo run build",
     "clean": "turbo run clean",
     "dev": "turbo run dev",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "dev-api-core": "turbo run dev --filter=snippets-api-core"
   },
   "dependencies": {},
   "devDependencies": {
@@ -23,5 +30,10 @@
   "engines": {
     "node": ">=14.0.0",
     "npm": ">=7.0.0"
+  },
+  "resolutions": {
+  "graphql": "16.10.0",
+  "@graphql-tools/schema": "10.0.16",
+  "@graphql-tools/utils": "10.7.2"
   }
 }
