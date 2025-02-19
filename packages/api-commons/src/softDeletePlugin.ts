@@ -1,10 +1,10 @@
-import { Schema, Document, Query } from "mongoose";
+import * as mongoose from "mongoose";
 
-export function SoftDeletePlugin(schema: Schema) {
+export function SoftDeletePlugin(schema: mongoose.Schema) {
   schema.add({ deletedAt: { type: Date, default: null } });
 
   // Exclude soft-deleted documents by default
-  schema.pre<Query<any, Document>>(/^find/, function (next) {
+  schema.pre<mongoose.Query<any, mongoose.Document>>(/^find/, function (next) {
     if (!(this.getFilter() as any).includeDeleted) {
       this.where({ deletedAt: null });
     }

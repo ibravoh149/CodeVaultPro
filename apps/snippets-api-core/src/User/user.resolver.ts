@@ -8,8 +8,8 @@ export class UserResolver {
   @Query(() => User)
   async user() {
     return {
-      lastName: 'Journal',
-      firstName: 'Cater',
+      email: 'Journal',
+      username: 'Cater',
     };
   }
 }

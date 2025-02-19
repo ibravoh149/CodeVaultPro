@@ -1,6 +1,6 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
-import { SoftDeletePlugin } from '@repo/api-commons';
+import { SoftDeletePlugin,HashPasswordPlugin } from '@repo/api-commons';
 
 export type UserDocument = mongoose.HydratedDocument<User>;
 
@@ -26,25 +26,35 @@ export class User extends mongoose.Document {
   @Prop()
   verificationToken: string;
 
-  @Prop(mongoose.Schema.Types.Date)
+  @Prop(Date)
   verifiedOn: Date;
 
-  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Role', required: true }])
-  roles: string[];
+  // @Prop({
+  //   type: [
+  //     { type: mongoose.Schema.Types.ObjectId, ref: 'Role', required: true },
+  //   ],
+  // })
+  // roles: string[];
 
   @Prop()
   resetpasswordtoken: string;
 
-  @Prop(mongoose.Schema.Types.Date)
+  @Prop(Date)
   resetpasswordexpires: Date;
 
   @Prop()
   socialId: string;
 
-  @Prop({ required: true })
+  @Prop({ default: 'local', enum: ['local', 'google', 'github'] })
   authProvider: string; //(google,local, github)=>default= local
 
   @Prop()
+  verificationExpiresAt?: Date;
+
+  @Prop(raw({
+    avatar: {type:String},
+    location: {type:String}
+  }))
   profile: Profile;
 
   @Prop({ type: Date, default: null })
@@ -52,7 +62,7 @@ export class User extends mongoose.Document {
 
   async softDelete() {
     this.deletedAt = new Date();
-    await this.save()
+    await this.save();
   }
 
   async restore() {
@@ -63,4 +73,5 @@ export class User extends mongoose.Document {
 
 const UserSchema = SchemaFactory.createForClass(User);
 UserSchema.plugin(SoftDeletePlugin);
+UserSchema.plugin(HashPasswordPlugin)
 export { UserSchema };

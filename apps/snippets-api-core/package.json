@@ -29,14 +29,17 @@
     "@nestjs/graphql": "13.0.2",
     "@nestjs/mongoose": "^11.0.1",
     "@nestjs/platform-express": "^11.0.7",
+    "@repo/api-commons": "*",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
     "graphql": "16.10.0",
     "mongoose": "^8.9.6",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0",
-    "@repo/api-commons": "*"
+    "rxjs": "^7.2.0"
   },
   "devDependencies": {
+    "@repo/typescript-config": "*",
     "@nestjs/cli": "^8.0.0",
     "@nestjs/schematics": "^8.0.0",
     "@nestjs/testing": "^8.0.0",

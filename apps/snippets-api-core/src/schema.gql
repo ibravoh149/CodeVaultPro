@@ -3,10 +3,23 @@
 # ------------------------------------------------------
 
 type User {
-  firstName: String!
-  lastName: String!
+  username: String!
+  email: String!
+}
+
+type UserSignUp {
+  message: String!
 }
 
 type Query {
   user: User!
+}
+
+type Mutation {
+  signUp(userSignUp: UserSignUpDTO!): UserSignUp!
+}
+
+input UserSignUpDTO {
+  email: String!
+  password: String!
 }
