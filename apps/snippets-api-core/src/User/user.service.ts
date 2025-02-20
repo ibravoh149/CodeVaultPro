@@ -25,6 +25,7 @@ export class UserService {
       // verificationToken: token,
       // verificationExpiresAt: expiresAt,
     });
+    
 
     // TODO
     // send a verificatio email

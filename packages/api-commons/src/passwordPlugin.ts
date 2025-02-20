@@ -1,7 +1,7 @@
 import * as bcrypt from "bcryptjs";
 import { Schema } from "mongoose";
 
-export function HashPasswordPlugin(schema: Schema) {
+export function PasswordPlugin(schema: Schema) {
   // Hash the password before saving the document
   schema.pre("save", async function (next) {
     if (!this.isModified("password")) return next(); // Only hash if password is modified
@@ -13,4 +13,11 @@ export function HashPasswordPlugin(schema: Schema) {
       next(error as Error);
     }
   });
+
+  // Add verifyPassword method
+  schema.methods.verifyPassword = async function (
+    inputPassword: string
+  ): Promise<boolean> {
+    return await bcrypt.compare(inputPassword, this.password);
+  };
 }

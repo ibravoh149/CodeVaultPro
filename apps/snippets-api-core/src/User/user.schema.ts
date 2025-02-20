@@ -1,6 +1,6 @@
 import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
-import { SoftDeletePlugin,HashPasswordPlugin } from '@repo/api-commons';
+import { SoftDeletePlugin, PasswordPlugin } from '@repo/api-commons';
 
 export type UserDocument = mongoose.HydratedDocument<User>;
 
@@ -51,10 +51,12 @@ export class User extends mongoose.Document {
   @Prop()
   verificationExpiresAt?: Date;
 
-  @Prop(raw({
-    avatar: {type:String},
-    location: {type:String}
-  }))
+  @Prop(
+    raw({
+      avatar: { type: String },
+      location: { type: String },
+    }),
+  )
   profile: Profile;
 
   @Prop({ type: Date, default: null })
@@ -69,9 +71,10 @@ export class User extends mongoose.Document {
     this.deletedAt = null;
     await this.save();
   }
+  verifyPassword: (inputPassword: string) => Promise<boolean>;
 }
 
 const UserSchema = SchemaFactory.createForClass(User);
 UserSchema.plugin(SoftDeletePlugin);
-UserSchema.plugin(HashPasswordPlugin)
+UserSchema.plugin(PasswordPlugin);
 export { UserSchema };

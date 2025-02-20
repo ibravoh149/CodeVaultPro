@@ -1,2 +1,2 @@
 export { SoftDeletePlugin } from "./softDeletePlugin";
-export { HashPasswordPlugin } from "./hashPasswordPlugin";
+export { PasswordPlugin } from "./passwordPlugin";
