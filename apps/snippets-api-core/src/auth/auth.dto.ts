@@ -12,3 +12,6 @@ export class UserSignUpDTO {
   @IsNotEmpty()
   password: string;
 }
+
+@InputType()
+export class UserLoginDTO extends UserSignUpDTO {}

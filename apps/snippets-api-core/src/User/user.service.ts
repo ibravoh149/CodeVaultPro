@@ -1,9 +1,13 @@
 import { Model } from 'mongoose';
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './user.schema';
 import crypto from 'crypto';
-import { UserSignUpDTO } from '../auth/auth.dto';
+import { UserSignUpDTO, UserLoginDTO } from '../auth/auth.dto';
 
 @Injectable()
 export class UserService {
@@ -25,12 +29,25 @@ export class UserService {
       // verificationToken: token,
       // verificationExpiresAt: expiresAt,
     });
-    
 
     // TODO
     // send a verificatio email
 
     return await newUser.save();
+  }
+
+  async login(payload: UserLoginDTO) {
+    const { email, password } = payload;
+    const user = await this.userModel
+      .findOne({ email })
+      .select('email password');
+    if (!user) throw new UnauthorizedException('Invalid login credentials');
+
+    const verifiedPassword = await user.verifyPassword(password);
+    if (!verifiedPassword)
+      throw new UnauthorizedException('Invalid login credentials');
+    const { _id } = user;
+    return { email, _id };
   }
 
   generateVerificationToken() {

@@ -11,15 +11,26 @@ type UserSignUp {
   message: String!
 }
 
+type Login {
+  access_token: String!
+  refresh_token: String!
+}
+
 type Query {
   user: User!
 }
 
 type Mutation {
   signUp(userSignUp: UserSignUpDTO!): UserSignUp!
+  login(loginPayload: UserLoginDTO!): Login!
 }
 
 input UserSignUpDTO {
+  email: String!
+  password: String!
+}
+
+input UserLoginDTO {
   email: String!
   password: String!
 }

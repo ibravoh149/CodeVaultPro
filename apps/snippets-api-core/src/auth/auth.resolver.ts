@@ -1,7 +1,7 @@
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
-import { UserSignUp } from './auth.entity';
+import { Login, UserSignUp } from './auth.entity';
 import { AuthService } from './auth.service';
-import { UserSignUpDTO } from './auth.dto';
+import { UserSignUpDTO, UserLoginDTO } from './auth.dto';
 
 @Resolver()
 export class AuthResolver {
@@ -16,5 +16,10 @@ export class AuthResolver {
     } catch (error) {
       return error;
     }
+  }
+
+  @Mutation(() => Login)
+  async login(@Args('loginPayload') loginPayload: UserLoginDTO) {
+    return this.authService.login(loginPayload);
   }
 }
