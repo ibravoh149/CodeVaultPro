@@ -7,7 +7,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigService, ConfigModule } from '@nestjs/config';
 
 import { join } from 'path';
-import { UserModule } from './User/user.module';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
+import { SnippetModule } from './snippet/snippet.module.js';
 
 @Module({
   imports: [
@@ -26,7 +28,9 @@ import { UserModule } from './User/user.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       playground: true,
     }),
+    AuthModule,
     UserModule,
+    SnippetModule
   ],
   controllers: [AppController],
   providers: [AppService],
