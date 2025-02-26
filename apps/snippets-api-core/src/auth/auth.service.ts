@@ -16,7 +16,11 @@ export class AuthService {
 
   async login(loginDTO: UserLoginDTO) {
     const user = await this.userService.login(loginDTO);
-    const tokenPayload = { sub: user._id, username: user.email };
+    const tokenPayload = {
+      sub: user._id,
+      username: user.email,
+      email: user.email,
+    };
     const { refresh_token, access_token } = await this.generateTokens(
       tokenPayload,
     );
@@ -29,7 +33,7 @@ export class AuthService {
     });
     const refresh_token = await this.jwtService.signAsync(payload, {
       expiresIn: '219000m',
-      secret:process.env.JWT_REFRESH_SECRET
+      secret: process.env.JWT_REFRESH_SECRET,
     });
     // Todo, hash and store refresh token in refresh token collection/table
     return {
