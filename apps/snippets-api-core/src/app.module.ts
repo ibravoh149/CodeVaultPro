@@ -10,6 +10,7 @@ import { join } from 'path';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { SnippetModule } from './snippet/snippet.module.js';
+import { SeedModule } from './seedData/seed.module';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { SnippetModule } from './snippet/snippet.module.js';
     }),
     AuthModule,
     UserModule,
-    SnippetModule
+    SnippetModule,
+    SeedModule,
   ],
   controllers: [AppController],
   providers: [AppService],
